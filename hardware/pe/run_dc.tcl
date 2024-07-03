@@ -3,7 +3,7 @@ set workdir /home/yc2367/Research/BitMoD/hardware/pe
 set_app_var target_library "$tsmc28/tcbn28hpcplusbwp30p140ssg0p9vm40c.db"
 set_app_var link_library   "* $target_library"
 
-set func  1 ;
+set func  3 ;
 
 if {$func == 0} {
     analyze -format sverilog $workdir/exp_match.v
@@ -15,8 +15,8 @@ if {$func == 0} {
     analyze -format sverilog $workdir/grp_accum.v
     elaborate grp_accum_clk
 } elseif {$func == 3} {
-    analyze -format sverilog $workdir/mac_unit_Pragmatic_8.v
-    elaborate mac_unit_Pragmatic_8_clk
+    analyze -format sverilog $workdir/dequant.v
+    elaborate dequant_clk
 } 
 
 check_design

@@ -15,6 +15,7 @@ hardware/simv
 hardware/Makefile 
 hardware/program.out
 
+work/
 save/*
 *.pth.tar
 *.log

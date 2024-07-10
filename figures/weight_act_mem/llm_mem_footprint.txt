@@ -1,0 +1,86 @@
+Downstream:
+facebook/opt-1.3b
+Weight memory:     2.4417724609375 GB
+Activation memory: 0.2612762451171875 GB
+KV Cache memory:   0.046875 GB
+
+
+microsoft/phi-2
+Weight memory:     4.931640625 GB
+Activation memory: 0.4189453125 GB
+KV Cache memory:   0.078125 GB
+
+
+01-ai/Yi-6B
+Weight memory:     10.80078125 GB
+Activation memory: 0.635986328125 GB
+KV Cache memory:   0.125 GB
+
+
+facebook/opt-6.7b
+Weight memory:     12.383544921875 GB
+Activation memory: 0.6528778076171875 GB
+KV Cache memory:   0.125 GB
+
+
+meta-llama/Llama-2-7b-hf
+Weight memory:     12.306640625 GB
+Activation memory: 0.7301025390625 GB
+KV Cache memory:   0.125 GB
+
+
+meta-llama/Llama-2-13b-hf
+Weight memory:     23.93798828125 GB
+Activation memory: 1.1334228515625 GB
+KV Cache memory:   0.1953125 GB
+
+
+meta-llama/Meta-Llama-3-8B
+Weight memory:     13.978515625 GB
+Activation memory: 0.7838134765625 GB
+KV Cache memory:   0.125 GB
+
+
+
+Generative:
+facebook/opt-1.3b
+Weight memory:     26.8594970703125 GB
+Activation memory: 0.7484741061925888 GB
+KV Cache memory:   0.0487060546875 GB
+
+
+microsoft/phi-2
+Weight memory:     54.248046875 GB
+Activation memory: 1.2302959561347961 GB
+KV Cache memory:   0.0811767578125 GB
+
+
+01-ai/Yi-6B
+Weight memory:     118.80859375 GB
+Activation memory: 1.9328048825263977 GB
+KV Cache memory:   0.1298828125 GB
+
+
+facebook/opt-6.7b
+Weight memory:     136.218994140625 GB
+Activation memory: 1.9503561854362488 GB
+KV Cache memory:   0.1298828125 GB
+
+
+meta-llama/Llama-2-7b-hf
+Weight memory:     135.373046875 GB
+Activation memory: 2.030597507953644 GB
+KV Cache memory:   0.1298828125 GB
+
+
+meta-llama/Llama-2-13b-hf
+Weight memory:     263.31787109375 GB
+Activation memory: 3.1651578098535538 GB
+KV Cache memory:   0.20294189453125 GB
+
+
+meta-llama/Meta-Llama-3-8B
+Weight memory:     153.763671875 GB
+Activation memory: 2.0864065289497375 GB
+KV Cache memory:   0.1298828125 GB
+

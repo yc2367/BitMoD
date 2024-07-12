@@ -855,7 +855,7 @@
 			<title
    id="title372">Sheet.17211</title>
 			<desc
-   id="desc374">Downstream Task Arith. Inten. ≥ 152</desc>
+   id="desc374">Discriminative Tasks Arith. Inten. ≥ 152</desc>
 			<rect
    x="0"
    y="150.12399"
@@ -864,10 +864,10 @@
    class="st7"
    id="rect376" />
 			<text
-   x="8.4499998"
+   x="4.0100002"
    y="158.53999"
    class="st22"
-   id="text380">Downstream Task <tspan
+   id="text380">Discriminative Tasks <tspan
    x="9.1300001"
    dy="1.1em"
    class="st15"

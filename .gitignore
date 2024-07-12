@@ -16,6 +16,7 @@ hardware/Makefile
 hardware/program.out
 
 work/
+.ipynb_checkpoints/
 save/*
 *.pth.tar
 *.log

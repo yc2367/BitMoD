@@ -21,4 +21,7 @@ save/*
 *.pth.tar
 *.log
 *.sh
+*.pdf
+*.svg
+*.vsdx
 Makefile

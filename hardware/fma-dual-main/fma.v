@@ -36,22 +36,11 @@ module dualFMA
     logic [15:0] acc1_reg0;
     logic [15:0] acc2_reg0;
 
-    always_ff @(posedge clk) begin
-        if (reset) begin
-            act_reg <= 16'b0;
-            in_reg <= 8'b0;
-            mode_reg0 <= 1'b0;
-            acc1_reg0 <= 16'b0;
-            acc2_reg0 <= 16'b0;
-        end else begin
-            act_reg <= act;
-            in_reg <= in;
-            mode_reg0 <= mode;
-            acc1_reg0 <= acc1;
-            acc2_reg0 <= acc2;
-        end
-        
-    end
+    assign act_reg = act;
+    assign in_reg = in;
+    assign mode_reg0 = mode;
+    assign acc1_reg0 = acc1;
+    assign acc2_reg0 = acc2;
 
     // dual multiplier 
     logic           sign_out1;
@@ -267,4 +256,47 @@ module dualFMA
     end
 
 endmodule
+
+
+module dualFMA_clk
+(
+    input   logic        clk,
+    input   logic        reset,
+
+    input   logic [15:0] act_t, // fp16 activation
+    input   logic [7:0]  in_t, // 8-bit input in int8/ 2fp4 format
+    input   logic        mode_t, // 0: int8, 1: 2fp4
+    input   logic [15:0] acc1_t, // fp16 accumulation 1
+    input   logic [15:0] acc2_t, // fp16 accumulation 2
+
+    output  logic [15:0] acc1_out, // fp16 accumulation 1
+    output  logic [15:0] acc2_out // fp16 accumulation 2
+);
+
+    logic [15:0] act;
+    logic [7:0]  in;
+    logic        mode;
+    logic [15:0] acc1;
+    logic [15:0] acc2;
+
+    always_ff @(posedge clk) begin
+        if (reset) begin
+            act <= 16'b0;
+            in <= 8'b0;
+            mode <= 1'b0;
+            acc1 <= 16'b0;
+            acc2 <= 16'b0;
+        end else begin
+            act <= act_t;
+            in <= in_t;
+            mode <= mode_t;
+            acc1 <= acc1_t;
+            acc2 <= acc2_t;
+        end
+    end
+
+    dualFMA dut (.*);
+
+endmodule
+
 `endif

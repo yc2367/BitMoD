@@ -25,4 +25,6 @@ save/*
 *.pdf
 *.svg
 *.vsdx
+model_shape_config/
+model_value_config/
 Makefile

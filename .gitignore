@@ -21,6 +21,7 @@ save/*
 *.pth.tar
 *.log
 *.sh
+*.tcl
 *.pdf
 *.svg
 *.vsdx

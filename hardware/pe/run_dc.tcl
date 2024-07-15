@@ -7,7 +7,7 @@ set func  3 ;
 
 if {$func == 0} {
     analyze -format sverilog $workdir/exp_match.v
-    elaborate exp_match
+    elaborate exp_match_clk
 } elseif {$func == 1} {
     analyze -format sverilog $workdir/bs_mul.v
     elaborate bs_mul_clk

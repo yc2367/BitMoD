@@ -4,6 +4,8 @@ import math, pickle
 
 
 class PE_Array:
+    PR_SCALING = 1.25 # scaling factor to account for post placement and routing
+
     ## The class constructor
     # @param model-name:    Name of the model to be evaluated.
     # @param i_prec:        The input precision.
@@ -20,9 +22,12 @@ class PE_Array:
         is_bit_serial: bool=False,
         pe_dp_size: int=1,
         pe_energy: float=0, 
+        pe_area: float=0, 
         pe_array_dim: List[int]=[],
+        context_length: int=256,
+        is_generation: bool=False,
     ):
-        assert pe_energy == 0, "ERROR! You must provide the energy cost of a PE."
+        assert pe_energy != 0, "ERROR! You must provide the energy cost of a PE."
         assert len(pe_array_dim) == 2, f"ERROR! The dimension of PE array must be 2. But you gave {len(pe_array_dim)}."
         
         self.model_name = model_name
@@ -33,14 +38,16 @@ class PE_Array:
             self.pe_latency = math.ceil(w_prec / 2)
         else:
             self.pe_latency = 1
-        self.pe_energy  = pe_energy
         self.pe_dp_size = pe_dp_size
-        self.pe_array_dim   = {'h': pe_array_dim[0], 'w': pe_array_dim[1]}
         self.total_pe_count = np.prod(pe_array_dim)
+        self.pe_energy      = pe_energy * self.PR_SCALING
+        self.pe_area        = pe_area * self.PR_SCALING
+        self.pe_array_area  = pe_area * self.total_pe_count
+        self.pe_array_dim   = {'h': pe_array_dim[0], 'w': pe_array_dim[1]}
         
-        self._init_model_profiler(model_name)
+        self._init_model_profiler(model_name, context_length, is_generation)
     
-    def _init_model_profiler(self, model_name, context_length: int=256):
+    def _init_model_profiler(self, model_name, context_length: int=256, is_generation: bool=False):
         model_name_dict = {
             "facebook/opt-1.3b": "opt_1_point_3", 
             "facebook/opt-6.7b": "opt_6_point_7", 
@@ -60,8 +67,12 @@ class PE_Array:
         output_dim = {}
         for name, shape in layer_config.items():
             weight_dim[name] = shape
-            input_dim[name]  = [context_length, shape[1]]
-            output_dim[name] = [context_length, shape[0]]
+            if is_generation: # generation
+                input_dim[name]  = [1, shape[1]]
+                output_dim[name] = [1, shape[0]]
+            else:
+                input_dim[name]  = [context_length, shape[1]]
+                output_dim[name] = [context_length, shape[0]]
 
         ########## Attention Dimension ##########
         num_hidden_layers   = model_config['num_hidden_layers']
@@ -74,18 +85,29 @@ class PE_Array:
         
         for l_idx in range(num_hidden_layers):
             op_name = f'model.layers.{l_idx}.self_attn.attn_qk'
-            weight_dim[op_name] = [context_length, hidden_size] # query dimension
-            input_dim[op_name]  = [context_length, hidden_size / num_attention_heads * num_key_value_heads] # key dimension
-            output_dim[op_name] = [num_attention_heads * context_length, context_length] # score dimension
-
+            if is_generation: # generation
+                weight_dim[op_name] = [1, hidden_size] # query dimension
+                input_dim[op_name]  = [context_length, hidden_size / num_attention_heads * num_key_value_heads] # key dimension
+                output_dim[op_name] = [num_attention_heads * 1, context_length] # score dimension
+            else:
+                weight_dim[op_name] = [context_length, hidden_size] # query dimension
+                input_dim[op_name]  = [context_length, hidden_size / num_attention_heads * num_key_value_heads] # key dimension
+                output_dim[op_name] = [num_attention_heads * context_length, context_length] # score dimension
+            
             op_name = f'model.layers.{l_idx}.self_attn.attn_v'
-            weight_dim[op_name] = [num_attention_heads * context_length, context_length] # score dimension
-            input_dim[op_name]  = [context_length, hidden_size / num_attention_heads * num_key_value_heads] # value dimension
-            output_dim[op_name] = [context_length, hidden_size] # output dimension
+            if is_generation: # generation
+                weight_dim[op_name] = [num_attention_heads * 1, context_length] # score dimension
+                input_dim[op_name]  = [context_length, hidden_size / num_attention_heads * num_key_value_heads] # value dimension
+                output_dim[op_name] = [1, hidden_size] # output dimension
+            else:
+                weight_dim[op_name] = [num_attention_heads * context_length, context_length] # score dimension
+                input_dim[op_name]  = [context_length, hidden_size / num_attention_heads * num_key_value_heads] # value dimension
+                output_dim[op_name] = [context_length, hidden_size] # output dimension
 
         self.weight_dim = weight_dim
         self.input_dim  = input_dim
         self.output_dim = output_dim
+        self.layer_name_list = list(weight_dim.keys())
 
     def _init_mem(self):
         raise NotImplementedError('ERROR! No implementation of function _init_mem()')

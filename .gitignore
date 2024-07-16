@@ -27,3 +27,4 @@ save/*
 model_shape_config/
 model_value_config/
 Makefile
+sim/mem/

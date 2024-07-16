@@ -24,6 +24,8 @@ save/*
 *.pdf
 *.svg
 *.vsdx
+*.xlsx
 model_shape_config/
 model_value_config/
 Makefile
+sim/mem/

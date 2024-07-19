@@ -64,7 +64,7 @@ module intMultiplier
     assign sign_out = int8_sign ^ act_sign;
     assign exp_out = act_exp - EXP_ACT_CALC_OFFSET;
 
-    mulCore mc(.in8(int8val), .in11(act), .out(man_out_int));
+    mulCore mc(.in8(int8val), .in11(act_man_ext), .out(man_out_int));
 endmodule
 
 

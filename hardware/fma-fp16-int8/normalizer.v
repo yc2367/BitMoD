@@ -138,7 +138,6 @@ module normalizer #(
 
     logic [EXP_WIDTH:0] ext_exp; // extended exponent, to check if overflow.
     always_comb begin
-
         // assign default values
         ext_exp = {1'b0, exp_in};
         exp_out = exp_in;
@@ -168,8 +167,6 @@ module normalizer #(
                 man_out = rounded_shifted_man;
             end
         end
-    
-    
     end
 
 endmodule

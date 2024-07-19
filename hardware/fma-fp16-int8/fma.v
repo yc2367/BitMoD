@@ -23,18 +23,9 @@ module fma_int8
     logic [15:0] act_reg;
     logic [7:0]  in_reg;
     logic [15:0] acc_reg0;
-
-    always_ff @(posedge clk) begin
-        if (reset) begin
-            act_reg <= 16'b0;
-            in_reg <= 8'b0;
-            acc_reg0 <= 16'b0;
-        end else begin
-            act_reg <= act;
-            in_reg <= in;
-            acc_reg0 <= acc;
-        end 
-    end
+    assign act_reg = act;
+    assign in_reg = in;
+    assign acc_reg0 = acc;
 
     // multiplier
 
@@ -45,7 +36,7 @@ module fma_int8
     intMultiplier intMul (
         .int8(in_reg),
         .act(act_reg),
-        .sign_out(sign_out1),
+        .sign_out(sign_out),
         .exp_out(exp_out),
         .man_out_int(man_out_int)
     );
@@ -83,7 +74,7 @@ module fma_int8
 
     logic           acc_sign_out;
     logic [4:0]     acc_exp_out;
-    logic [18:0]    acc_man_out;
+    logic [19:0]    acc_man_out;
     // adder
     fp_adder_core #(5, 11, 19, 1, 9) acc_adder (
         .sign1(acc_sign),
@@ -101,7 +92,7 @@ module fma_int8
     logic [4:0] norm_exp_out;
     logic [9:0] norm_man_out;
 
-    normalizer #(5, 19, 10, 9) nrmlz (
+    normalizer #(5, 20, 10, 9) nrmlz (
         .exp_in(acc_exp_out),
         .man_in(acc_man_out),
         .exp_out(norm_exp_out),
@@ -123,5 +114,35 @@ module fma_int8
 endmodule
 
 
+module fma_int8_clk
+(
+    input   logic        clk,
+    input   logic        reset,
+
+    input   logic [15:0] act_t, // fp16 activation
+    input   logic [7:0]  in_t,  // 8-bit input in int8/ 2fp4 format
+    input   logic [15:0] acc_t, // fp16 accumulation 2
+
+    output  logic [15:0] acc_out // fp16 accumulation 1
+);
+
+    logic [15:0] act;
+    logic [7:0]  in;
+    logic [15:0] acc;
+
+    always_ff @(posedge clk) begin
+        if (reset) begin
+            act <= 16'b0;
+            in <= 8'b0;
+            acc <= 16'b0;
+        end else begin
+            act <= act_t;
+            in <= in_t;
+            acc <= acc_t;
+        end
+    end
+
+    fma_int8 dut (.*);
+endmodule
 
 `endif

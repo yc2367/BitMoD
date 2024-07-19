@@ -243,8 +243,11 @@ class Accelerator(PE_Array):
                     self._layer_mem_refetch[name] = (1, 1)
 
     def _init_mem(self):
-        w_bandwidth = self.pe_dp_size * math.ceil(self.w_prec / 2) * self.pe_array_dim['h']
-        w_sram_bank = 16
+        if self.is_bit_serial:
+            w_bandwidth = self.pe_dp_size * math.ceil(self.w_prec / 4) * 4 * self.pe_array_dim['h'] / 2
+        else:
+            w_bandwidth = self.pe_dp_size * math.ceil(self.w_prec / 4) * 4 * self.pe_array_dim['h']
+        w_sram_bank = 8
         w_sram_config = {
                             'technology': 0.028,
                             'mem_type': 'sram', 
@@ -261,8 +264,11 @@ class Accelerator(PE_Array):
                                      min_w_granularity=64, 
                                      get_cost_from_cacti=True, double_buffering_support=False)
         
-        i_bandwidth = self.pe_dp_size * self.i_prec * self.pe_array_dim['w'] / self.pe_latency
-        i_sram_bank = 16
+        if self.is_bit_serial:
+            i_bandwidth = self.pe_dp_size * self.i_prec * self.pe_array_dim['w'] / 2
+        else:
+            i_bandwidth = self.pe_dp_size * self.i_prec * self.pe_array_dim['w']
+        i_sram_bank = 8
         i_sram_config = {
                             'technology': 0.028,
                             'mem_type': 'sram', 

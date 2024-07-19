@@ -1,7 +1,7 @@
 from accelerator import Accelerator 
 
-model_list = ["facebook/opt-1.3b", "microsoft/phi-2", "01-ai/Yi-6B", "facebook/opt-6.7b", "meta-llama/Llama-2-7b-hf", "meta-llama/Llama-2-13b-hf", "meta-llama/Meta-Llama-3-8B"]
-model_list = ["facebook/opt-1.3b"]
+model_list = ["facebook/opt-1.3b", "microsoft/phi-2", "01-ai/Yi-6B", "meta-llama/Llama-2-7b-hf", "meta-llama/Llama-2-13b-hf", "meta-llama/Meta-Llama-3-8B"]
+#model_list = ["meta-llama/Llama-2-7b-hf"]
 
 if __name__ == "__main__":
     is_generation = True
@@ -47,5 +47,5 @@ if __name__ == "__main__":
             print(f'on-chip energy:     {onchip_energy} uJ')
             print(f'total energy:       {total_energy} uJ')
 
-        print()
+        print('\n')
     

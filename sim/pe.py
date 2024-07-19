@@ -31,11 +31,12 @@ class PE_Array:
         assert len(pe_array_dim) == 2, f"ERROR! The dimension of PE array must be 2. But you gave {len(pe_array_dim)}."
         
         self.model_name = model_name
+        self.is_bit_serial = is_bit_serial
         self.i_prec  = i_prec
         self.w_prec  = w_prec
 
         if is_bit_serial:
-            self.pe_latency = math.ceil(w_prec / 2)
+            self.pe_latency = math.ceil(math.floor(w_prec) / 2)
         else:
             self.pe_latency = 1
         self.pe_dp_size = pe_dp_size

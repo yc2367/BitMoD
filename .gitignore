@@ -4,7 +4,6 @@ hardware/simv.daidir/*
 hardware/csrc/*
 hardware/syn/*
 hardware/tb*/*
-hardware/*.tcl
 hardware/*.vcd
 hardware/*.log
 hardware/*.txt
@@ -21,6 +20,7 @@ save/*
 *.pth.tar
 *.log
 *.sh
+*.tcl
 *.pdf
 *.svg
 *.vsdx

@@ -54,22 +54,8 @@ for n, m in model.named_modules():
         print(f'Module name:   {n}')
         print(f'Module shape:  {m.weight.shape}')
         print(f'Asymmetricity: {asymmetricity}')
+        time.sleep(5)
 
         print('\n')
 
-'''
-model_name_dict = {
-    "facebook/opt-1.3b": "opt_1_point_3", 
-    "facebook/opt-6.7b": "opt_6_point_7", 
-    "microsoft/phi-2": "phi_2",
-    "01-ai/Yi-6B": "yi_6",
-    "meta-llama/Llama-2-7b-hf": "llama_2_7", 
-    "meta-llama/Llama-2-13b-hf": "llama_2_13", 
-    "meta-llama/Meta-Llama-3-8B": "llama_3_8", 
-}
-base_path = '/home/yc2367/llm/llm_profile/model_asymmetry_config'
-file_path = f'{base_path}/{model_name_dict[model_str]}.pickle'
-with open(file_path, 'wb') as f:
-    pickle.dump(model_config, f)
-'''
 

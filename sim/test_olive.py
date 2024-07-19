@@ -4,28 +4,33 @@ model_list = ["facebook/opt-1.3b", "microsoft/phi-2", "01-ai/Yi-6B", "meta-llama
 #model_list = ["meta-llama/Llama-2-7b-hf"]
 
 if __name__ == "__main__":
+    w_prec_list = {
+        'facebook/opt-1.3b': 3.875, 
+        'microsoft/phi-2': 4, 
+        '01-ai/Yi-6B': 4.25, 
+        'meta-llama/Llama-2-7b-hf': 3.75, 
+        'meta-llama/Llama-2-13b-hf': 3.75, 
+        'meta-llama/Meta-Llama-3-8B': 3.5, 
+    }
+
     is_generation = True
-    is_aggresive = False
     if is_generation:
-        pe_array_dim = [64, 16]
-        if is_aggresive:
-            w_prec = 3.0625
-        else:
-            w_prec = 6.0625
+        pe_array_dim = [80, 16]
     else:
-        pe_array_dim = [32, 32]
-        if is_aggresive:
-            w_prec = 4.0625
-        else:
-            w_prec = 6.0625
+        pe_array_dim = [40, 32]
 
     for model_name in model_list:
+        if is_generation:
+            w_prec = w_prec_list[model_name]
+        else:
+            w_prec = 5
+
         acc = Accelerator(
             model_name=model_name, 
             i_prec=16,
             w_prec=w_prec,
-            is_bit_serial=True,
-            pe_dp_size=4,
+            is_bit_serial=False,
+            pe_dp_size=1,
             pe_energy=0.586,
             pe_area=1507.7,
             pe_array_dim=pe_array_dim,

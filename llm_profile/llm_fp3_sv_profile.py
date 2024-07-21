@@ -132,7 +132,7 @@ model_name_dict = {
     "meta-llama/Llama-2-13b-hf": "llama_2_13", 
     "meta-llama/Meta-Llama-3-8B": "llama_3_8", 
 }
-base_path = '/home/yc2367/llm/BitMoD/llm_profile/model_fp3_cv_profile'
+base_path = '/home/yc2367/llm/BitMoD/llm_profile/model_fp3_sv_profile'
 file_path = f'{base_path}/{model_name_dict[model_str]}_outlier_{int(outlier)}.pickle'
 with open(file_path, 'wb') as f:
     pickle.dump(model_config, f)

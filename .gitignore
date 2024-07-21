@@ -27,5 +27,6 @@ save/*
 *.xlsx
 model_shape_config/
 model_value_config/
+model_fp3_cv_profile/
 Makefile
 sim/mem/

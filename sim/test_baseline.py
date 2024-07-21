@@ -9,8 +9,10 @@ if __name__ == "__main__":
         pe_array_dim = [64, 12]
     else:
         pe_array_dim = [32, 24]
+    
+    total_energy_list = [[0, 0] for _ in model_list]
 
-    for model_name in model_list:
+    for idx, model_name in enumerate(model_list):
         acc = Accelerator(
             model_name=model_name, 
             i_prec=16,
@@ -46,6 +48,9 @@ if __name__ == "__main__":
             print(f'dram energy:        {dram_energy} uJ')
             print(f'on-chip energy:     {onchip_energy} uJ')
             print(f'total energy:       {total_energy} uJ')
-
+            total_energy_list[idx][0] = round(onchip_energy)
+            total_energy_list[idx][1] = round(total_energy)
+        
         print('\n')
-    
+
+    print(total_energy_list)

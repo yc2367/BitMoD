@@ -15,15 +15,18 @@ if __name__ == "__main__":
 
     is_generation = True
     if is_generation:
-        pe_array_dim = [80, 16]
+        pe_array_dim = [72, 16]
     else:
-        pe_array_dim = [40, 32]
+        pe_array_dim = [36, 32]
+    
+    total_energy_list = [[0, 0] for _ in model_list]
+    total_latency_list = [0 for _ in model_list]
 
-    for model_name in model_list:
+    for idx, model_name in enumerate(model_list):
         if is_generation:
             w_prec = w_prec_list[model_name]
         else:
-            w_prec = 5
+            w_prec = 4.5
 
         acc = Accelerator(
             model_name=model_name, 
@@ -31,8 +34,8 @@ if __name__ == "__main__":
             w_prec=w_prec,
             is_bit_serial=False,
             pe_dp_size=1,
-            pe_energy=0.586,
-            pe_area=1507.7,
+            pe_energy=0.613,
+            pe_area=1318.6,
             pe_array_dim=pe_array_dim,
             context_length=256,
             is_generation=is_generation,
@@ -49,6 +52,7 @@ if __name__ == "__main__":
         print_energy = True
         print(f'model: {model_name}')
         print(f'total cycle:        {total_cycle}')
+        total_latency_list[idx] = total_cycle[1]
 
         if print_energy:
             print(f'pe array area:      {acc.pe_array_area / 1e6} mm2')
@@ -60,6 +64,11 @@ if __name__ == "__main__":
             print(f'dram energy:        {dram_energy} uJ')
             print(f'on-chip energy:     {onchip_energy} uJ')
             print(f'total energy:       {total_energy} uJ')
-
+            total_energy_list[idx][0] = round(onchip_energy)
+            total_energy_list[idx][1] = round(total_energy)
+        
         print('\n')
+
+    print(f'Latency: {total_latency_list}')
+    print(f'Energy: {total_energy_list}')
     

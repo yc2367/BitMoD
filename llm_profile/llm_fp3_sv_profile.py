@@ -52,7 +52,7 @@ def quant_datatype(w_fp16, datatype: str="", group_size: Optional[int]=None):
 
 
 def search_datatype(w_fp16, group_size: Optional[int]=None):
-    datatype_list = ['fp3_sp_pos', 'fp3_sp_neg', 'fp3_sr_pos', 'fp3_sr_neg']
+    datatype_list = ['fp3_sp_pos', 'fp3_sp_neg']
 
     K, C = w_fp16.size() # output channel, input channel
     if (group_size is None) or (group_size <= 0):

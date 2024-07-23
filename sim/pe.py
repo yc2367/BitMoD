@@ -36,7 +36,7 @@ class PE_Array:
         self.w_prec  = w_prec
 
         if is_bit_serial:
-            self.pe_latency = math.ceil(math.floor(w_prec) / 2)
+            self.pe_latency = round(math.floor(w_prec) / 2)
         else:
             self.pe_latency = 1
         self.pe_dp_size = pe_dp_size

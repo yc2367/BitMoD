@@ -20,6 +20,7 @@ if __name__ == "__main__":
             w_prec = 4.0625
     
     total_energy_list = [[0, 0] for _ in model_list]
+    total_latency_list = [0 for _ in model_list]
 
     for idx, model_name in enumerate(model_list):
         acc = Accelerator(
@@ -46,6 +47,7 @@ if __name__ == "__main__":
         print_energy = True
         print(f'model: {model_name}')
         print(f'total cycle:        {total_cycle}')
+        total_latency_list[idx] = total_cycle[1]
 
         if print_energy:
             print(f'pe array area:      {acc.pe_array_area / 1e6} mm2')
@@ -61,6 +63,7 @@ if __name__ == "__main__":
             total_energy_list[idx][1] = round(total_energy)
         
         print('\n')
-
-    print(total_energy_list)
+    
+    print(f'Latency: {total_latency_list}')
+    print(f'Energy: {total_energy_list}')
     

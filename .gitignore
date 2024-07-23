@@ -19,12 +19,12 @@ work/
 save/*
 *.pth.tar
 *.log
+*.txt
 *.sh
 *.tcl
 *.pdf
 *.svg
 *.vsdx
-*.xlsx
 model_shape_config/
 model_value_config/
 model_fp3_sv_profile/

@@ -172,7 +172,13 @@ module serial_reader
         .out(booth_out)
     );
 
-    assign booth_in = data_ext_reg[2 * counter + 2: 2 * counter];
+    always_comb begin 
+        if (counter == 2'd0) booth_in = data_ext_reg[2: 0];
+        else if (counter == 2'd1) booth_in = data_ext_reg[4: 2];
+        else if (counter == 2'd2) booth_in = data_ext_reg[6: 4];
+        else if (counter == 2'd3) booth_in = data_ext_reg[8: 6];
+        else booth_in = 3'bxxx;
+    end
 
     logic [3:0] lod_in;
     logic [1:0] lod_exp;
@@ -182,7 +188,11 @@ module serial_reader
         .exp(lod_exp),
         .man(lod_man)
     );
-    assign lod_in = data_ext_reg[counter + 3: counter];
+    always_comb begin 
+        if (counter == 2'd0) lod_in = data_ext_reg[3: 0];
+        else if (counter == 2'd1) lod_in = data_ext_reg[4: 1];
+        else lod_in = 4'bxxxx;
+    end
 
     // combinational logic for output data
     always_comb begin

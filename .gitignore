@@ -25,6 +25,7 @@ save/*
 *.pdf
 *.svg
 *.vsdx
+*.ipynb
 model_shape_config/
 model_value_config/
 model_fp3_sv_profile/
